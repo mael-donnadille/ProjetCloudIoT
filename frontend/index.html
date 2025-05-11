@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>IoT Cloud - Températures</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/temperatureController.js"></script>
+    <script src="services/temperatureService.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-app="iotApp" ng-controller="TemperatureController">
+    <h2>IoT Cloud - Gestion des Températures</h2>
+
+    <div>
+        <h3>Ajouter une Température</h3>
+        <input type="number" ng-model="newTemperature" placeholder="Valeur de température" />
+        <button ng-click="addTemperature()">Ajouter</button>
+    </div>
+
+    <h3>Liste des Températures</h3>
+    <ul>
+        <li ng-repeat="temp in temperatures">
+            ID: {{ temp.id }} | Valeur: {{ temp.value }}°C | Date: {{ temp.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}
+        </li>
+    </ul>
+</body>
+</html>
