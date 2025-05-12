@@ -9,4 +9,3 @@ app.service('TemperatureService', function($http) {
         return $http.post(API_URL, { value: value });
     };
 });
-

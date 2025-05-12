@@ -2,7 +2,6 @@ app.controller('TemperatureController', function($scope, TemperatureService) {
     $scope.temperatures = [];
     $scope.newTemperature = '';
 
-    
     function loadTemperatures() {
         TemperatureService.getAll().then(function(response) {
             $scope.temperatures = response.data;
@@ -22,6 +21,5 @@ app.controller('TemperatureController', function($scope, TemperatureService) {
         }
     };
 
-   
     loadTemperatures();
 });
