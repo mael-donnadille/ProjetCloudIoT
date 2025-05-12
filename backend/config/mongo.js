@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/iot_cloud', {
+const uri = 'mongodb+srv://iotUser:iotPass123@iotapi.xry36jr.mongodb.net/iot_cloud?retryWrites=true&w=majority&appName=IotApi';
+
+mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
-.then(() => console.log('Connecté à MongoDB'))
-.catch(err => console.error('Erreur de connexion MongoDB:', err));
+.then(() => console.log(' Connecté à MongoDB Atlas'))
+.catch(err => console.error(' Erreur de connexion à MongoDB Atlas:', err));
 
 module.exports = mongoose;

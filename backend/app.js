@@ -2,8 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const mongoose = require('./config/mongo');
+
+
 const temperatureRoutes = require('./routes/temperatureRoutes');
-const humidityRoutes = require('./routes/humidityRoutes');
+const humidityRoutes = require('./routes/humidityRoutes'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,7 +14,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Routes
 app.use('/api/temperature', temperatureRoutes);
 app.use('/api/humidity', humidityRoutes);
 

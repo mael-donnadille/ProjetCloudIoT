@@ -2,11 +2,14 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>IoT Cloud - Températures</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="app.js"></script>
     <script src="controllers/temperatureController.js"></script>
     <script src="services/temperatureService.js"></script>
+    <script src="controllers/humidityController.js"></script>
+    <script src="services/humidityService.js"></script>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body ng-app="iotApp" ng-controller="TemperatureController">
@@ -24,5 +27,21 @@
             ID: {{ temp.id }} | Valeur: {{ temp.value }}°C | Date: {{ temp.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}
         </li>
     </ul>
+
+    <h2>IoT Cloud - Gestion des Humidités</h2>
+
+<div ng-controller="HumidityController">
+    <h3>Ajouter une Humidité</h3>
+    <input type="number" ng-model="newHumidity" placeholder="Valeur d'humidité" />
+    <button ng-click="addHumidity()">Ajouter</button>
+
+    <h3>Liste des Humidités</h3>
+    <ul>
+        <li ng-repeat="hum in humidities">
+            ID: {{ hum._id }} | Valeur: {{ hum.value }}% | Date: {{ hum.timestamp | date:'dd/MM/yyyy HH:mm:ss' }}
+        </li>
+    </ul>
+</div>
+
 </body>
 </html>
