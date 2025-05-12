@@ -20,6 +20,7 @@
   "homepage": "https://github.com/mael-donnadille/ProjetCloudIoT#readme",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "chart.js": "^4.4.9",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
