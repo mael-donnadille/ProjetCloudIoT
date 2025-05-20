@@ -1,3 +1,4 @@
+/* Style global */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -9,6 +10,7 @@ body {
     height: 100vh;
 }
 
+/* Conteneurs de connexion et de tableau de bord */
 .login-container, .dashboard-container {
     background-color: white;
     padding: 20px;
@@ -19,11 +21,13 @@ body {
     width: 400px;
 }
 
+/* En-têtes */
 h2, h3 {
     margin-bottom: 15px;
     color: #333;
 }
 
+/* Champs de saisie */
 input[type="text"], input[type="password"] {
     width: 100%;
     padding: 10px;
@@ -33,6 +37,7 @@ input[type="text"], input[type="password"] {
     box-sizing: border-box;
 }
 
+/* Boutons */
 button {
     width: 100%;
     padding: 10px;
@@ -49,6 +54,7 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Boutons spéciaux */
 button.small-btn {
     width: auto;
     padding: 5px 10px;
@@ -63,6 +69,23 @@ button.delete-btn:hover {
     background-color: #c82333;
 }
 
+button.edit-btn {
+    background-color: #ffc107;
+}
+
+button.edit-btn:hover {
+    background-color: #e0a800;
+}
+
+button.add-btn {
+    background-color: #28a745;
+}
+
+button.add-btn:hover {
+    background-color: #218838;
+}
+
+/* Messages */
 p.message {
     margin: 10px 0;
     font-size: 14px;
@@ -73,7 +96,15 @@ p.success {
     color: green;
 }
 
+p.info {
+    color: #007bff;
+}
 
+p.warning {
+    color: #ffc107;
+}
+
+/* Liste des valeurs */
 .values-list {
     margin-top: 20px;
     text-align: left;
@@ -100,4 +131,46 @@ li span {
 
 li button {
     margin-left: 5px;
+}
+
+/* Boutons dans la liste */
+li .edit-btn, li .delete-btn {
+    width: auto;
+    padding: 5px 8px;
+    margin-left: 5px;
+}
+
+li .edit-btn:hover, li .delete-btn:hover {
+    opacity: 0.9;
+}
+
+/* Barre de navigation */
+nav {
+    background-color: #007bff;
+    padding: 10px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: center;
+}
+
+.logout-btn {
+    background-color: #dc3545;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
 }

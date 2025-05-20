@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="iotApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Connexion - IoT Cloud</title>
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+
+    <!-- Fichiers de l'application -->
+    <script src="app.js"></script>
+    <script src="controllers/loginController.js"></script>
+    <script src="services/userService.js"></script>
+
+    <!-- Feuille de style -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Style spécifique pour la page de connexion -->
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #ff00b7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            color: red;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container" ng-controller="LoginController">
+    <h2>Connexion</h2>
+    <form ng-submit="login()">
+        <input type="text" ng-model="username" placeholder="Nom d'utilisateur" required autocomplete="username">
+        <input type="password" ng-model="password" placeholder="Mot de passe" required autocomplete="current-password">
+        <button type="submit">Se connecter</button>
+        <p ng-bind="message"></p> <!-- Correction pour afficher le message -->
+    </form>
+</div>
+
+</body>
+</html>

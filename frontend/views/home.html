@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="iotApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Accueil - IoT Cloud</title>
+
+    <!-- Style de base -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .home-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
+        nav a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .info {
+            margin-top: 20px;
+            color: #555;
+        }
+
+        .message {
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body ng-controller="HomeController">
+    <div class="home-container">
+        <h2>Bienvenue sur l'application IoT Cloud</h2>
+        <p>Cette application vous permet de gérer les données de température et d'humidité.</p>
+
+        <!-- Liens de navigation dynamiques -->
+        <nav>
+            <a href="#!/login" ng-if="!isLoggedIn()">Connexion</a>
+            <a href="#!/dashboard" ng-if="isLoggedIn()">Tableau de bord</a>
+            <a href="" ng-click="logout()" ng-if="isLoggedIn()">Déconnexion</a>
+        </nav>
+
+        <!-- Message d'accueil dynamique -->
+        <div class="message" ng-if="isLoggedIn()">
+            <p>Vous êtes connecté en tant que {{user.username}} ({{user.role}})</p>
+        </div>
+
+        <!-- Informations -->
+        <div class="info" ng-if="!isLoggedIn()">
+            <p>Pour accéder aux fonctionnalités avancées, connectez-vous avec votre compte.</p>
+        </div>
+    </div>
+
+    <!-- AngularJS pour gérer l'état de connexion -->
+    <script>
+        var app = angular.module('iotApp', []);
+
+        app.controller('HomeController', function($scope, $location) {
+            // Vérifie si l'utilisateur est connecté
+            $scope.isLoggedIn = function() {
+                return sessionStorage.getItem('user') !== null;
+            };
+
+            // Récupère l'utilisateur connecté
+            if ($scope.isLoggedIn()) {
+                $scope.user = JSON.parse(sessionStorage.getItem('user'));
+            }
+
+            // Déconnexion
+            $scope.logout = function() {
+                sessionStorage.removeItem('user');
+                alert('Déconnexion réussie');
+                $location.path('/login');
+            };
+        });
+    </script>
+</body>
+</html>

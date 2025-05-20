@@ -2,27 +2,85 @@
 <html lang="fr" ng-app="iotApp">
 <head>
     <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>IoT Cloud - Accueil</title>
+
     <!-- AngularJS et ngRoute -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
     <!-- Chart.js pour les graphiques -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
 
-    <!-- Fichiers de l'application -->
-    <script src="app.js"></script>
-    <script src="controllers/loginController.js"></script>
-    <script src="controllers/dashboardController.js"></script>
-    <script src="services/temperatureService.js"></script>
-    <script src="services/humidityService.js"></script>
 
-    <!-- Feuille de style -->
+   <!-- Charger app.js en premier -->
+<script src="app.js"></script>
+
+<!-- Ensuite les services -->
+<script src="controllers/homeController.js"></script> <!-- ← à ajouter -->
+<script src="controllers/loginController.js"></script>
+<script src="controllers/dashboardController.js"></script>
+<script src="controllers/temperatureController.js"></script>
+<script src="controllers/humidityController.js"></script>
+
+<script src="controllers/homeController.js"></script> <!-- ← à ajouter -->
+<script src="controllers/loginController.js"></script>
+<script src="controllers/dashboardController.js"></script>
+<script src="controllers/temperatureController.js"></script>
+<script src="controllers/humidityController.js"></script>
+    <!-- Feuilles de style -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Conteneur pour les vues dynamiques -->
-    <div ng-view></div>
+    <!-- Barre de navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#!/">Accueil</a>
+            <a href="#!/login" ng-if="!isLoggedIn()">Connexion</a>
+            <a href="#!/dashboard" ng-if="isLoggedIn()">Dashboard</a>
+            <a href="" ng-click="logout()" ng-if="isLoggedIn()">Déconnexion</a>
+        </div>
+    </nav>
+
+    <!-- Vue dynamique -->
+    <div class="content">
+        <div ng-view></div>
+    </div>
+
+    <!-- Scripts pour vérifier l'authentification -->
+    <script>
+        var app = angular.module('iotApp', ['ngRoute']);
+
+        app.config(function($routeProvider) {
+            $routeProvider
+                .when('/', {
+                    templateUrl: 'views/home.html',
+                    controller: 'HomeController'
+                })
+                .when('/login', {
+                    templateUrl: 'views/login.html',
+                    controller: 'LoginController'
+                })
+                .when('/dashboard', {
+                    templateUrl: 'views/dashboard.html',
+                    controller: 'DashboardController'
+                })
+                .otherwise({
+                    redirectTo: '/'
+                });
+        });
+
+        app.controller('MainController', function($scope, $location) {
+            $scope.isLoggedIn = function() {
+                return sessionStorage.getItem('user') !== null;
+            };
+
+            $scope.logout = function() {
+                sessionStorage.removeItem('user');
+                alert('Déconnexion réussie');
+                $location.path('/login');
+            };
+        });
+    </script>
 </body>
 </html>

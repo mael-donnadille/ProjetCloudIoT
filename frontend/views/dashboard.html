@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="iotApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tableau de bord - IoT Cloud</title>
+
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+  <!-- Application -->
+  <script>
+    var app = angular.module('iotApp', []);
+
+    app.factory('UserService', function($http) {
+      return {
+        logout: function() {
+          return $http.get('http://localhost:3000/api/users/logout', {
+            withCredentials: true
+          });
+        }
+      };
+    });
+
+    app.controller('DashboardController', function($scope, $http, $location, UserService) {
+      $scope.user = JSON.parse(sessionStorage.getItem('user'));
+      $scope.values = [];
+
+      if (!$scope.user) {
+        $location.path('/login');
+        return;
+      }
+
+      // Déconnexion
+      $scope.logout = function() {
+        UserService.logout().then(function() {
+          sessionStorage.removeItem('user');
+          alert('Déconnexion réussie');
+          $location.path('/login');
+        });
+      };
+
+      // Récupération des températures (MySQL)
+      $http.get('http://localhost:3000/api/temperature', { withCredentials: true })
+        .then(function(response) {
+          response.data.forEach(item => {
+            $scope.values.push({ name: 'Température', data: item.value + '°C' });
+          });
+        })
+        .catch(function(error) {
+          console.error('Erreur températures:', error);
+        });
+
+      // Récupération des humidités (MongoDB)
+      $http.get('http://localhost:3000/api/humidity', { withCredentials: true })
+        .then(function(response) {
+          response.data.forEach(item => {
+            $scope.values.push({ name: 'Humidité', data: item.value + '%' });
+          });
+        })
+        .catch(function(error) {
+          console.error('Erreur humidité:', error);
+        });
+
+      // Ajout d'une valeur locale (pas encore connectée à l'API)
+      $scope.add = function() {
+        const newValue = prompt('Entrez une nouvelle valeur :');
+        if (newValue) {
+          $scope.values.push({ name: 'Valeur manuelle', data: newValue });
+        }
+      };
+
+      $scope.edit = function(value) {
+        const newValue = prompt('Modifier la valeur :', value.data);
+        if (newValue) value.data = newValue;
+      };
+
+      $scope.remove = function(value) {
+        if (confirm('Supprimer cette valeur ?')) {
+          const index = $scope.values.indexOf(value);
+          if (index !== -1) $scope.values.splice(index, 1);
+        }
+      };
+    });
+  </script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .dashboard-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      margin: 5px;
+      padding: 8px 14px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .values-list ul {
+      list-style: none;
+      padding: 0;
+    }
+    .values-list li {
+      padding: 10px;
+      background-color: #eee;
+      margin-bottom: 6px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-container" ng-controller="DashboardController">
+    <h2>Tableau de bord</h2>
+    <p>Bienvenue, {{ user.username }} ({{ user.role }})</p>
+
+    <button ng-click="logout()">Déconnexion</button>
+
+    <div ng-if="user.role === 'admin'">
+      <h3>Actions Admin</h3>
+      <button ng-click="add()">Ajouter</button>
+    </div>
+
+    <div class="values-list">
+      <h3>Liste des valeurs</h3>
+      <ul>
+        <li ng-repeat="value in values">
+          {{ value.name }} : {{ value.data }}
+          <span ng-if="user.role === 'admin'">
+            <button ng-click="edit(value)">Modifier</button>
+            <button ng-click="remove(value)">Supprimer</button>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

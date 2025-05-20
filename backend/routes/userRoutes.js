@@ -12,7 +12,6 @@ router.post('/register', async (req, res) => {
 
         // Hachage du mot de passe avant l'enregistrement
         const hashedPassword = await bcrypt.hash(password, 10);
-
         const user = new User({ username, password: hashedPassword, role });
         await user.save();
         res.json({ message: 'Utilisateur enregistré avec succès' });
@@ -42,9 +41,7 @@ router.post('/login', async (req, res) => {
 // Route pour la déconnexion
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).json({ error: 'Erreur lors de la déconnexion' });
-        }
+        if (err) return res.status(500).json({ error: 'Erreur lors de la déconnexion' });
         res.json({ message: 'Déconnexion réussie' });
     });
 });

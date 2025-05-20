@@ -1,18 +1,18 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
 
-const db = mysql.createConnection({
+const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
     database: 'iot_cloud'
 });
 
-db.connect((err) => {
+connection.connect((err) => {
     if (err) {
-        console.error('Erreur de connexion MySQL : ', err.message);
-        return;
+        console.error('Erreur de connexion à MySQL:', err);
+    } else {
+        console.log('✅ Connecté à la base de données MySQL');
     }
-    console.log('Ok - Connecté à la base de données MySQL. ');
 });
 
-module.exports = db;
+module.exports = connection;
